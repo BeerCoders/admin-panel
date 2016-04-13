@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
     entry: './src/app.js',
     output: {
-        filename: 'angular-repository.js',
+        filename: 'app.js',
         path: 'tmp'
     },
     resolve: {
