@@ -1,5 +1,5 @@
 /**
- * This file is part of the what2wear package.
+ * This file is part of the admin-panel package.
  *
  * (c) Rafał Lorenz <vardius@gmail.com>
  *

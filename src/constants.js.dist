@@ -1,0 +1,9 @@
+export class Settings {
+    constructor() {
+        this.url = "";
+        this.domain = "";
+        this.clientId = '';
+        this.clientSecret = '';
+        this.port = "";
+    }
+}
