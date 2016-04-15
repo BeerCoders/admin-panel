@@ -1,6 +1,5 @@
 var loaders = require("./loaders");
 var webpack = require('webpack');
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -20,21 +19,15 @@ module.exports = {
         modulesDirectories: ["node_modules"]
     },
     devtool: "source-map",
+    devServer: {
+        port: 8080,
+        historyApiFallback: true
+    },
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: 'body',
             hash: true
-        }),
-        new BrowserSyncPlugin({
-            host: 'localhost',
-            port: 8080,
-            server: {
-                baseDir: 'dist'
-            },
-            ui: false,
-            online: false,
-            notify: false
         }),
         new webpack.ProvidePlugin({
             moment: 'moment',
