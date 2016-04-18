@@ -1,8 +1,6 @@
 import "./../resources/styles/main.sass";
 import "./../resources/scripts/scripts.js";
 
-import 'angular'
-import 'angular-ui-router';
 import 'angular-flash-alert';
 import 'angular-messages';
 import 'angular-resource';
