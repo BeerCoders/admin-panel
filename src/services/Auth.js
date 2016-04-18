@@ -93,9 +93,13 @@ export class Auth {
         };
 
         return this.http(req).then((response) => {
+            let user = null;
             if (response.data) {
-                this.AccessService.setUser(response.data.data);
+                user = response.data.data;
+                this.AccessService.setUser(user);
             }
+
+            return user;
         });
     }
 }
