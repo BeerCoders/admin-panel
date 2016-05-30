@@ -10,21 +10,19 @@
 import {Settings} from "../constants";
 
 export class Auth {
-
-    constructor($http, AccessService, OAuth, Settings) {
+    constructor($http, OAuth, Settings) {
         this.http = $http;
         this.OAuth = OAuth;
-        this.AccessService = AccessService;
         this.Settings = Settings;
     }
 
     login(username, password) {
-        return this.OAuth.getAccessToken({
+        let user = {
             username: username,
             password: password
-        }).then((response) => {
-            return response.data;
-        });
+        };
+
+        return this.OAuth.getAccessToken(user).then(response => response.data);
     }
 
     verify(resetToken, firstPassword, secondPassword) {
@@ -43,9 +41,7 @@ export class Auth {
             data: data
         };
 
-        return this.http(req).then(function (response) {
-            return response.data;
-        });
+        return this.http(req).then(response => response.data);
     }
 
     register(email, firstPassword, secondPassword) {
@@ -61,13 +57,11 @@ export class Auth {
 
         let req = {
             method: 'POST',
-            url: this.Settings.url + '/register/',
+            url: this.Settings.url + '/register',
             data: data
         };
 
-        return this.http(req).then((response) => {
-            return response.data;
-        });
+        return this.http(req).then(response => response.data);
     }
 
     forgotPassword(username) {
@@ -81,9 +75,27 @@ export class Auth {
             data: data
         };
 
-        return this.http(req).then((response) => {
-            return response.data;
-        });
+        return this.http(req).then(response => response.data);
+    }
+
+    changePassword(current_password, new_password, new_password_confirmation) {
+        let data = {
+            fos_user_change_password_form: {
+                current_password: current_password,
+                plainPassword: {
+                    first: new_password,
+                    second: new_password_confirmation
+                }
+            }
+        };
+
+        let req = {
+            method: 'POST',
+            url: this.Settings.url + '/change-password',
+            data: data
+        };
+
+        return this.http(req).then(response => response.data);
     }
 
     me() {
@@ -92,12 +104,17 @@ export class Auth {
             url: this.Settings.url + '/users/me'
         };
 
-        return this.http(req).then((response) => {
+        return this.http(req).then(response => {
+            let user = null;
             if (response.data) {
-                this.AccessService.setUser(response.data.data);
+                user = response.data.data;
+                user.lastActivity = response.data.lastActivity;
+                this.AccessService.setUser(user);
             }
+
+            return user;
         });
     }
 }
 
-Auth.$inject = ['$http', 'AccessService', 'OAuth', 'Settings'];
+Auth.$inject = ['$http', 'OAuth', 'Settings'];

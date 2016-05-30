@@ -7,18 +7,22 @@
  * file that was distributed with this source code.
  */
 
-config.$inject = ["OAuthProvider", 'Settings'];
+config.$inject = ["OAuthProvider", 'OAuthTokenProvider', 'Settings'];
 
-export function config(OAuthProvider, Settings) {
-    var myConfig = {
+export function config(OAuthProvider, OAuthTokenProvider, Settings) {
+    let myConfig = {
         baseUrl: Settings.url,
         clientId: Settings.clientId,
         clientSecret: Settings.clientSecret,
         grantPath: '/oauth/v2/token',
         revokePath: '/oauth/v2/revoke'
     };
-
     OAuthProvider.configure(myConfig);
+
+    let config = {
+        storage: 'localStorage'
+    };
+    OAuthTokenProvider.configure(config);
 }
 
 run.$inject = ['$rootScope', '$state', 'AccessService'];
