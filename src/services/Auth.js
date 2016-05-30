@@ -108,7 +108,6 @@ export class Auth {
             let user = null;
             if (response.data) {
                 user = response.data.data;
-                user.lastActivity = response.data.lastActivity;
                 this.AccessService.setUser(user);
             }
 
