@@ -10,10 +10,11 @@
 import {Settings} from "../constants";
 
 export class Auth {
-    constructor($http, OAuth, Settings) {
+    constructor($http, AccessService, OAuth, Settings) {
         this.http = $http;
         this.OAuth = OAuth;
         this.Settings = Settings;
+        this.AccessService = AccessService;
     }
 
     login(username, password) {
@@ -108,6 +109,7 @@ export class Auth {
             let user = null;
             if (response.data) {
                 user = response.data.data;
+                user.lastActivity = response.data.lastActivity;
                 this.AccessService.setUser(user);
             }
 
@@ -116,4 +118,4 @@ export class Auth {
     }
 }
 
-Auth.$inject = ['$http', 'OAuth', 'Settings'];
+Auth.$inject = ['$http', 'AccessService', 'OAuth', 'Settings'];
